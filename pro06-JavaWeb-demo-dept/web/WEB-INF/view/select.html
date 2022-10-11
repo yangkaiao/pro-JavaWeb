@@ -97,7 +97,7 @@
 <h1 style="margin:15px">部门列表</h1>
     <div id="box">
         <a th:href="@{department(method='addDept')}"><button id="addbtn">创建</button></a>
-<!--        <a th:href="@{department(method='upDept')}"><button id="upbtn">编辑</button></a>-->
+
     </div>
     <form th:action="@{department(method='delDept')}" method="post">
         <input type="submit" value="编辑" id="upbtn" name="DelUp" >
@@ -149,22 +149,25 @@
     element.onclick=function(e) {
         var count = 0;
         for (let i = 0; i < elementsByClassName.length; i++) {
-            var checked = elementsByClassName[i].checked;
+            var checked = elementsByClassName[i].checked;//这里是查看多选框是否选中，选中为true，没选中为false
             console.log(checked)
-            if (checked){
+            if (checked){//如果为true就进入判断了 count++了，就说明最少已经有一个被选中了
                 count++;
+                //确定是否删除 如果确定就什么都不用做，然后自己就跳转到删除功能了
                 if(confirm("是否确定要删除？")){
                     console.log("确定")
                     // return false;
                     // window.location.href="department?method=delDept";
-                }else {
+                }else { //如果点取消 就阻止点击事件默认行为
                     console.log("取消")
                     // window.location.href="department?method=findDepartments";
                     // return false; 这里的return false 没有用，它只是跳出了这个循环，没有阻止点击事件
+
+                    //然后循环把选中的多选框为false，取消那些选中的多选框
                     for (let i = 0; i < elementsByClassName.length; i++) {
                         var checked = elementsByClassName[i].checked=false;
                     }
-                    e.preventDefault();//组件点击默认行为
+                    e.preventDefault();//阻止点击默认行为
                 }
             }
         }
@@ -179,15 +182,15 @@
     elementById.onclick=function(){
         var count = 0;
         for (let i = 0; i < elementsByClassName.length; i++) {
-            var checked = elementsByClassName[i].checked;
+            var checked = elementsByClassName[i].checked;//这里是查看多选框是否选中，选中为true，没选中为false
             console.log(checked)
-            if (checked){
+            if (checked){//如果为true就进入判断了 count++了
                 count++;
             }
         }
-        if(count>1){
+        if(count>1){//循环结束后 如果count>1 就说明多选框选中了两个，那么就阻止他不能跳转，要求是只能选择一个进行修改
           alert("请选择一个进行更改")
-         return false;
+         return false;//阻止事件默认行为
         }
         if(count==0){
             alert("请选择一个进行更改")
