@@ -101,7 +101,7 @@
     </div>
     <form th:action="@{department(method='delDept')}" method="post">
         <input type="submit" value="编辑" id="upbtn" name="DelUp" >
-        <input type="submit" value="删除" id="debtn" name="DelUp" th:onclick="del()">
+        <input type="submit" value="删除" id="debtn" name="DelUp">
         <table border="0" cellspacing="0" cellpadding="0" id="tab">
             <tr>
                 <th>操作</th>
@@ -136,6 +136,7 @@
 </html>
 <script>
     var elementById = document.getElementById("upbtn");
+    var element = document.getElementById("debtn");
     var elementsByClassName = document.getElementsByClassName("checkids");
     //分页操作
     function page(pageNo){
@@ -145,8 +146,7 @@
     }
 
     //删除操作
-    function del() {
-
+    element.onclick=function(e) {
         var count = 0;
         for (let i = 0; i < elementsByClassName.length; i++) {
             var checked = elementsByClassName[i].checked;
@@ -154,7 +154,17 @@
             if (checked){
                 count++;
                 if(confirm("是否确定要删除？")){
-                    window.location.href="department?method=delDept";
+                    console.log("确定")
+                    // return false;
+                    // window.location.href="department?method=delDept";
+                }else {
+                    console.log("取消")
+                    // window.location.href="department?method=findDepartments";
+                    // return false; 这里的return false 没有用，它只是跳出了这个循环，没有阻止点击事件
+                    for (let i = 0; i < elementsByClassName.length; i++) {
+                        var checked = elementsByClassName[i].checked=false;
+                    }
+                    e.preventDefault();//组件点击默认行为
                 }
             }
         }
